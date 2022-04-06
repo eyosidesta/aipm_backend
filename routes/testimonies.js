@@ -2,18 +2,19 @@ const express = require('express');
 const router = express.Router();
 
 router.get("/", (req, res) => {
-    res.send("testimonies get page");
+    res.send("testimonies get");
 });
 
 router.post("/", (req, res) => {
-    res.send("testimonies post page");
+    res.send("testimonies post");
 });
 
-router.put("/:id", (req, res) => {
-
+router.put("/", (req, res) =>  {
+    res.send("testimonies put");
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/", (req, res) => {
+    res.send("testimonies delete");
 });
 
-module.exports = router
+module.exports = router;

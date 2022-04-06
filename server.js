@@ -1,21 +1,17 @@
 const express = require('express');
 const app = express();
 
-const newsRouter = require('./routes/news');
-const testimoniesRouter = require('./routes/testimonies');
-const staffsRouter = require('./routes/staff.members');
-const prayerMovementRouter = require('./routes/prayer.movement');
-const universitySutdentsMovementRouter = require('./routes/university.students.movement');
+const newsRoute = require('./routes/news');
+const testimoniesRoute = require('./routes/testimonies');
+const prayerMovementRoute = require('./routes/prayer.movement');
+const staffMembersRoute = require('./routes/staff.members');
 
 app.get("/", (req, res) => {
-    res.send("good to go");
+    res.send("hi there")
 });
 
-app.use('/news', newsRouter);
-app.use('/testimonies', testimoniesRouter);
-app.use('/staffs', staffsRouter);
-app.use('/prayers', prayerMovementRouter);
-app.use('/students', universitySutdentsMovementRouter);
-
-
-app.listen(3000)
+app.use("/news", newsRoute);
+app.use("/testimonies", testimoniesRoute);
+app.use("/prayer", prayerMovementRoute);
+app.use("/staff", staffMembersRoute);
+app.listen(3000);
