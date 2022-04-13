@@ -1,22 +1,19 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 const isAdminLogged = require("../guard/admin.login.guard");
 
-isAdminLogged;
-router.get("/", (req, res) => {
-    res.send("news get");
+const NewsController = require("../controllers/news");
+
+router.get("/", NewsController.get_all_news);
+
+router.post("/", isAdminLogged, (req, res) => {
+  res.send("news post");
 });
 
-router.post("/", (req, res) => {
-    res.send("news post");
-});
-
-router.put("/", (req, res) => {
-    res.send("news put");
-});
-
-router.delete("/", (req, res) => {
-    res.send("news delete");
-});
+router
+  .route("/:id")
+  .get(NewsController.get_new)
+  .put(isAdminLogged, NewsController.update_news)
+  .delete(isAdminLogged, NewsController.delete_news)
 
 module.exports = router;

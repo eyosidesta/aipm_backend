@@ -1,4 +1,13 @@
 const express = require('express');
+
+const db = require('./config/database');
+
+db.authenticate().then(() => {
+    console.log("db connected...");
+}).catch(err => {
+    console.log("Error: ", err);
+})
+
 const app = express();
 
 const newsRoute = require('./routes/news');
