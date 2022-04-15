@@ -33,3 +33,6 @@ exports.get_testimony = (req, res) => {
     })
 }
 
+exports.update_testimony = (req, res) => {
+    
+}

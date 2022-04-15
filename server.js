@@ -22,5 +22,5 @@ app.get("/", (req, res) => {
 app.use("/news", newsRoute);
 app.use("/testimonies", testimoniesRoute);
 app.use("/prayer", prayerMovementRoute);
-app.use("/staff", staffMembersRoute);
+app.use("/staffs", staffMembersRoute);
 app.listen(3000);

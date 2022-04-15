@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const isAdminLogged = require("../guard/admin.login.guard");
 
-const NewsController = require("../controllers/news");
+const NewsController = require("../controllers/newsController");
 
 router.get("/", NewsController.get_all_news);
 
@@ -12,7 +12,7 @@ router.post("/", isAdminLogged, (req, res) => {
 
 router
   .route("/:id")
-  .get(NewsController.get_new)
+  .get(NewsController.get_news_by_id)
   .put(isAdminLogged, NewsController.update_news)
   .delete(isAdminLogged, NewsController.delete_news)
 

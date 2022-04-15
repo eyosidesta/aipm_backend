@@ -10,7 +10,7 @@ exports.get_all_news = (req, res) => {
     });
 };
 
-exports.get_new = (req, res) => {
+exports.get_news_by_id = (req, res) => {
   New.findAll({
     where: { id: req.params.id },
   }).then(newValue => {
