@@ -1,5 +1,5 @@
 const isAdminLogged = (req, res, next) => {
-    // next(); 
+    next(); 
 }
 
 module.exports = isAdminLogged;

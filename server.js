@@ -1,5 +1,5 @@
 const express = require('express');
-
+const app = express();
 const db = require('./config/database');
 
 db.authenticate().then(() => {
@@ -7,8 +7,6 @@ db.authenticate().then(() => {
 }).catch(err => {
     console.log("Error: ", err);
 })
-
-const app = express();
 
 const newsRoute = require('./routes/news');
 const testimoniesRoute = require('./routes/testimonies');

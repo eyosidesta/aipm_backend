@@ -6,9 +6,7 @@ const staffController = require("../controllers/staffController");
 
 router.get("/", staffController.get_all_staff_members);
 
-router.post("/", isAdminLogged, (req, res) => {
-  res.send("staff members post");
-});
+router.post("/", isAdminLogged, staffController.add_staff_member);
 
 router
   .route("/:id")

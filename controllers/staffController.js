@@ -1,20 +1,31 @@
 const StaffMember = require("../models/StaffMember");
+const response = require("../utils/responses");
+const sucessMessage = require("../utils/success_messages");
+const errorMessage = require("../utils/error_messages");
 
 exports.get_all_staff_members = (req, res) => {
   StaffMember.findAll()
     .then((staff) => {
-      res.status(200).json({
-        status: true,
-        code: 200,
-        message: "staff members found successfully",
-      });
+      res
+        .status(200)
+        .json(
+          response.success_response(
+            sucessMessage.found_message("Staff Member"),
+            200,
+            staff
+          )
+        );
     })
     .catch((err) => {
-      res.status(500).json({
-        status: false,
-        code: 500,
-        message: `error found ${err}`,
-      });
+      res
+        .status(500)
+        .json(
+          response.failure_response(
+            errorMessage.found_error("Staff Members"),
+            500,
+            err
+          )
+        );
     });
 };
 
@@ -22,28 +33,39 @@ exports.get_staff_member_by_id = async (req, res) => {
   uid = req.params.id;
   const staff = await StaffMember.findByPk(uid);
   if (staff === null) {
-    res.status(404).json({
-      status: false,
-      code: 404,
-      message: "user is not found",
-    });
+    res
+      .status(404)
+      .json(
+        response.failure_response(
+          errorMessage.error_404("Staff Member"),
+          404,
+          null
+        )
+      );
     return;
   }
   staff
-    .then((res) => {
-      res.status(200).json({
-        status: true,
-        code: 200,
-        response: res,
-        message: "staff member found successfully",
-      });
+    .then((staff_member) => {
+      res
+        .status(200)
+        .json(
+          response.success_response(
+            sucessMessage.found_by_id_message("Staff Member"),
+            200,
+            staff_member
+          )
+        );
     })
     .catch((err) => {
-      res.status(500).json({
-        status: false,
-        code: 500,
-        message: `error found ${err}`,
-      });
+      res
+        .status(500)
+        .json(
+          response.failure_response(
+            errorMessage.found_by_id_error("Staff Members", uid),
+            500,
+            err
+          )
+        );
     });
 };
 
@@ -62,19 +84,26 @@ exports.add_staff_member = async (req, res) => {
 
   newStaff
     .then((createdStaff) => {
-      res.status(201).json({
-        status: true,
-        code: 201,
-        response: createdStaff.toJson(),
-        message: "new staff created successfully",
-      });
+      res
+        .status(201)
+        .json(
+          response.success_response(
+            sucessMessage.updated_message("Staff Member"),
+            201,
+            createdStaff
+          )
+        );
     })
     .catch((err) => {
-      res.status(500).json({
-        status: false,
-        code: 500,
-        message: `error found ${err}`,
-      });
+      res
+        .status(500)
+        .json(
+          response.failure_response(
+            errorMessage.added_error("Staff Members"),
+            500,
+            err
+          )
+        );
     });
 };
 
@@ -85,12 +114,16 @@ exports.update_staff_member = (req, res) => {
   }
   StaffMember.update({ _id: req.params.id }, { $set: updatedStaff })
     .exec()
-    .then((res) => {
-      res.status(200).json({
-        status: true,
-        code: 200,
-        message: "staff successfully updated",
-      });
+    .then((staff) => {
+      res
+        .status(200)
+        .json(
+          response.success_response(
+            sucessMessage.updated_message("Staff Member"),
+            200,
+            staff
+          )
+        );
     })
     .catch((err) => {
       res.status(500).json({
@@ -116,7 +149,7 @@ exports.update_staff_member = (req, res) => {
   //   updatedStaff;
 };
 
-exports.delete_staff_member = (req, res) => {
+exports.delete_staff_member = async (req, res) => {
   const uid = req.params.id;
   if (!uid) {
     res.status(404).json({
@@ -127,23 +160,36 @@ exports.delete_staff_member = (req, res) => {
     return;
   }
 
+  const staff_member = await StaffMember.findByPk(uid);
+  if(!staff_member) {
+    res.status(404).json(response.failure_response(errorMessage.error_404("Staff Member"), 404, null))
+  }
+  
   StaffMember.destroy({
     where: {
       id: uid,
     },
   })
     .then((staff) => {
-      res.status(200).json({
-        status: true,
-        code: 200,
-        message: "staff member successfully deleted",
-      });
+      res
+        .status(200)
+        .json(
+          response.success_response(
+            sucessMessage.deleted_message("Staff Member"),
+            200,
+            staff
+          )
+        );
     })
     .catch((err) => {
-      res.status(500).json({
-        status: false,
-        code: 500,
-        message: `error found ${err}`,
-      });
+      res
+        .status(500)
+        .json(
+          response.failure_response(
+            errorMessage.added_error("Staff Member"),
+            500,
+            err
+          )
+        );
     });
 };
