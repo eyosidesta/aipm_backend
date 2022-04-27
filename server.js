@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
+const bodyParser = require("body-parser");
 const db = require('./config/database');
+
+app.use(bodyParser.json());
 
 db.authenticate().then(() => {
     console.log("db connected...");

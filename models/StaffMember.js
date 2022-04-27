@@ -29,12 +29,6 @@ const StaffMember = db.define('staffs', {
     imageUrl: {
         type: Sequelize.STRING,
     },
-    createdAt: {
-        type: Sequelize.STRING,
-    },
-    updatedAt: {
-        type: Sequelize.STRING,
-    }
 });
 
 module.exports = StaffMember;
