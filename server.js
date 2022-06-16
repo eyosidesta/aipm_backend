@@ -17,11 +17,13 @@ const newsRoute = require('./routes/news');
 const testimoniesRoute = require('./routes/testimonies');
 const prayerMovementRoute = require('./routes/prayer.movement');
 const staffMembersRoute = require('./routes/staff.members');
+const authRoute = require('./routes/authentication');
 
 app.get("/", (req, res) => {
     res.send("config get request")
 });
 
+app.use('/auth', authRoute);
 app.use("/news", newsRoute);
 app.use("/testimonies", testimoniesRoute);
 app.use("/prayer", prayerMovementRoute);

@@ -1,4 +1,5 @@
 require('dotenv').config()
+const jwt = require('jsonwebtoken')
 
 const isAdminLogged = (req, res, next) => {
     const authHeader = req.headers['authorization']
