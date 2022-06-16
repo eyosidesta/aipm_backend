@@ -13,8 +13,8 @@ const User = db.define("auth", {
         type: Sequelize.STRING,
     },
     password: {
-        type: Sequelize.password,
+        type: Sequelize.STRING,
     }
 })
 
-module.exports = Authentication;
+module.exports = User;
