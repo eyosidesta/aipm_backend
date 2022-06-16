@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const express = require('express');
 const app = express();
 const bodyParser = require("body-parser");
@@ -17,7 +19,7 @@ const prayerMovementRoute = require('./routes/prayer.movement');
 const staffMembersRoute = require('./routes/staff.members');
 
 app.get("/", (req, res) => {
-    res.send("hi there")
+    res.send("config get request")
 });
 
 app.use("/news", newsRoute);
