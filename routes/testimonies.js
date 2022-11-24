@@ -1,21 +1,17 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 const isAdminLogged = require("../guard/admin.login.guard");
 
-router.get("/", (req, res) => {
-    res.send("testimonies get");
-});
+const testimonyController = require("../controllers/testimonyController");
 
-router.post("/", isAdminLogged, (req, res) => {
-    res.send("testimonies post");
-});
+router.get("/", testimonyController.get_all_testimonies);
 
-router.route("/:id").get((req, res) => {
-    res.send(`get testimonies by id: ${req.params.id}`);
-}).put(isAdminLogged, (req, res) => {
-    res.send(`testimonies put ${req.params.id}`);
-}).delete(isAdminLogged, (req, res) => {
-    res.send(`testimonies delete ${req.params.id}`);
-})
+router.post("/", isAdminLogged, testimonyController.add_testimony);
+
+router
+  .route("/:id")
+  .get(testimonyController.get_testimony_by_id)
+  .put(isAdminLogged, testimonyController.update_testimony)
+  .delete(isAdminLogged, testimonyController.delete_testimony);
 
 module.exports = router;

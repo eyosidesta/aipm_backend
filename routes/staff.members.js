@@ -11,7 +11,7 @@ router.post("/", isAdminLogged, staffController.add_staff_member);
 router
   .route("/:id")
   .get(staffController.get_staff_member_by_id)
-  .put(staffController.update_staff_member)
+  .put(isAdminLogged, staffController.update_staff_member)
   .delete(isAdminLogged, staffController.delete_staff_member);
 
 module.exports = router;

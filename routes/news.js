@@ -6,9 +6,7 @@ const NewsController = require("../controllers/newsController");
 
 router.get("/", NewsController.get_all_news);
 
-router.post("/", isAdminLogged, (req, res) => {
-  res.send("news post");
-});
+router.post("/", isAdminLogged, NewsController.add_news);
 
 router
   .route("/:id")

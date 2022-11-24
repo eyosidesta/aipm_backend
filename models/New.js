@@ -11,12 +11,6 @@ const New = db.define('news', {
     imageUrl: {
         type: Sequelize.STRING,
     },
-    createdAt: {
-        type: Sequelize.DATE,
-    },
-    updatedAt: {
-        type: Sequelize.DATE,
-    },
 });
 
 module.exports = New;

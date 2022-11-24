@@ -21,7 +21,7 @@ const Testimony = db.define('testimonies', {
         type: Sequelize.STRING,
     },
     imageUrl: {
-        typle: Sequelize.STRING,
+        type: Sequelize.STRING
     }
 });
 

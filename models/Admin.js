@@ -2,14 +2,26 @@
 const Sequelize = require("sequelize");
 const db = require("../config/database");
 
-const User = db.define("auth", {
+const Admin = db.define("admin", {
     fullName: {
         type: Sequelize.STRING,
     },
     phone: {
         type: Sequelize.STRING,
     },
-    username: {
+    email: {
+        type: Sequelize.STRING,
+    },
+    role: {
+        type: Sequelize.STRING,
+    },
+    gender: {
+        type: Sequelize.STRING,
+    },
+    staffLocation: {
+        type: Sequelize.STRING,
+    },
+    aipmService: {
         type: Sequelize.STRING,
     },
     password: {
@@ -17,4 +29,4 @@ const User = db.define("auth", {
     }
 })
 
-module.exports = User;
+module.exports = Admin;
