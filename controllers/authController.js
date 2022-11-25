@@ -1,5 +1,6 @@
 const Admin = require("../models/Admin");
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const response = require("../utils/responses");
 const sucessMessage = require("../utils/success_messages");
 const errorMessage = require("../utils/error_messages");
@@ -14,6 +15,16 @@ exports.login = async (req, res) => {
   }
   try {
     if (await bcrypt.compare(req.body.password, admin.password)) {
+      jwt.sign({admin}, 'secretkey', (err, token) => {
+        if(err) {
+          res.sendStatus(500).json("there is something error");
+        } else {
+          res.json({
+            token
+          })
+        }
+        
+      })
       res.status(200).send("loged in successfully");
     }
   } catch (err) {
