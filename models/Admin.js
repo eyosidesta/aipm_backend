@@ -2,7 +2,7 @@
 const Sequelize = require("sequelize");
 const db = require("../config/database");
 
-const Admin = db.define("admin", {
+const Admin = db.define("admins", {
     fullName: {
         type: Sequelize.STRING,
     },

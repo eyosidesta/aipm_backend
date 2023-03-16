@@ -6,61 +6,77 @@ const sucessMessage = require("../utils/success_messages");
 const errorMessage = require("../utils/error_messages");
 
 exports.login = async (req, res) => {
-  const admin = Admin.findAll({
-    email: req.body.email,
+  const admin = await Admin.findAll({
+    where: {
+      email: req.body.email,
+    }
   });
 
-  if (admin == null) {
-    return res.status(400).send("Can not find admin");
+  if (admin.length <= 0) {
+    return res.status(403).send("the password or email is incorrect");
   }
   try {
-    if (await bcrypt.compare(req.body.password, admin.password)) {
+    if(await bcrypt.compare(req.body.password, admin[0].password)) {
       jwt.sign({admin}, 'secretkey', (err, token) => {
-        if(err) {
-          res.sendStatus(500).json("there is something error");
+        if (err) {
+          res.status(403).json("there is something error");
         } else {
-          res.json({
+          res.status(200).json({
+            admin: admin[0],
             token
           })
         }
-        
       })
-      res.status(200).send("loged in successfully");
+    } else {
+      res.sendStatus(403)
     }
-  } catch (err) {
-    res.status(500).send();
+  } catch(err) {
+    res.status(500).json({
+      err: 'something went wrong'
+    })
   }
 };
 
 exports.sign_up = async (req, res) => {
   try {
     const salt = await bcrypt.genSalt();
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
-    const admin = {fullName: req.body.fullName, phone: req.body.phone, email: req.body.email, role: req.body.role, gender: req.body.gender, staffLocation: req.body.staffLocation, aipmService: req.body.aipmService, password: hashedPassword };
-    const newAdmin = await Admin.create({
-      fullName: admin.fullName,
-      phone: admin.phone,
-      email: admin.email,
-      role: admin.role,
-      gender: admin.gender,
-      staffLocation: admin.staffLocation,
-      aipmService: admin.aipmService,
-      password: admin.password,
-    });
+    const hashedPassword = await bcrypt.hash('password', salt);
+    const admin = { fullName: req.body.fullName, phone: req.body.phone, email: req.body.email, role: req.body.role, gender: req.body.gender, staffLocation: req.body.staffLocation, aipmService: req.body.aipmService, password: hashedPassword };
+    const checkEmailExist = await Admin.findAll({
+      where: {
+        email: req.body.email
+      }
+    })
+    if (checkEmailExist.length > 0) {
+      // 409 code for conflict
+      res.status(409).json({
+        message: `Email already exists, ${checkEmailExist[0].fullName} registered with ${checkEmailExist[0].email}`
+      })
 
-    newAdmin
-      .then((createdAdmin) => {
+    } else {
+
+      const newAdmin = await Admin.create({
+        fullName: admin.fullName,
+        phone: admin.phone,
+        email: admin.email,
+        role: admin.role,
+        gender: admin.gender,
+        staffLocation: admin.staffLocation,
+        aipmService: admin.aipmService,
+        password: admin.password,
+      });
+
+      if (newAdmin) {
         res
           .status(201)
           .json(
             response.success_response(
               sucessMessage.updated_message("New Admin"),
               201,
-              createdAdmin
+              newAdmin
             )
           );
-      })
-      .catch((err) => {
+      } else {
         res
           .status(500)
           .json(
@@ -70,8 +86,9 @@ exports.sign_up = async (req, res) => {
               err
             )
           );
-      });
-  } catch {
-    res.send(500).send();
+      }
+    }
+  } catch (err) {
+    res.status(500).json(err);
   }
 };
